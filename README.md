@@ -27,7 +27,9 @@ Begin by cloning the repository to your local machine:
 
 bash
 git clone https://github.com/toby4all/prod-web-services.git
-cd magento2-setup
+cd magento2-setup if you are already on the ubuntu server because the folder is present there
+but if you clonning to a new server or local system cd prod-web-services
+
 Step 2: Configure the Inventory File
 Edit the Ansible inventory file located at ansible/inventory/hosts to specify the server details:
 
@@ -37,7 +39,7 @@ your_server_ip ansible_user=ubuntu ansible_port=your_ssh_port ansible_ssh_privat
 
 locally, I used 
 [magento2]
-localhost ansible_connection=local because i ssh into the unbuntu server
+localhost ansible_connection=local because i ssh into the unbuntu server already
 Note: The MySQL root password is not stored here; it is stored securely in the encrypted vault file.
 
 Step 3: Run the Setup Script
@@ -122,6 +124,6 @@ Conclusion
 This project automates the installation and configuration of a Magento 2 production environment using Ansible and Bash scripts. The setup is secure, scalable, and includes all necessary services to run Magento 2 smoothly. By leveraging Ansible Vault, sensitive information like the MySQL root password is securely managed and encrypted.
 
 ## Architecture Diagram 
-![Magento 2 Setup Diagram](./magento2-setup/ansible/Images/diagram.png)
+![Magento 2 Setup Diagram](prod-web-services/ansible/Images/diagram.png)
 
 If you encounter any issues or have further questions, please feel free to reach out for assistance.
