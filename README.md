@@ -124,6 +124,6 @@ Conclusion
 This project automates the installation and configuration of a Magento 2 production environment using Ansible and Bash scripts. The setup is secure, scalable, and includes all necessary services to run Magento 2 smoothly. By leveraging Ansible Vault, sensitive information like the MySQL root password is securely managed and encrypted.
 
 ## Architecture Diagram 
-![Magento 2 Setup Diagram](prod-web-services/ansible/Images/diagram.png)
+![Magento 2 Setup Diagram](./ansible/Images/diagram.png)
 
 If you encounter any issues or have further questions, please feel free to reach out for assistance.
