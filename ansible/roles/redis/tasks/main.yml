@@ -1,0 +1,25 @@
+---
+- name: Install Redis
+  apt:
+    name: redis-server
+    state: present
+
+- name: Configure Redis to listen on the appropriate port
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^bind'
+    line: 'bind 0.0.0.0'
+    state: present
+
+- name: Ensure Redis is configured to listen on port 6379
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: '^port'
+    line: 'port 6379'
+    state: present
+
+- name: Start Redis service
+  service:
+    name: redis-server
+    state: started
+    enabled: yes

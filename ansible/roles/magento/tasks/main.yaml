@@ -1,0 +1,32 @@
+- name: Download Magento
+  get_url:
+    url: https://github.com/magento/magento2/archive/2.4.7.tar.gz
+    dest: /tmp/magento2.tar.gz
+
+- name: Extract Magento
+  unarchive:
+    src: /tmp/magento2.tar.gz
+    dest: /var/www/html
+    remote_src: yes
+
+- name: Install Magento
+  shell: |
+    cd /var/www/html/magento2-2.4.7
+    composer install
+    bin/magento setup:install \
+      --db-host=localhost \
+      --db-name=magento \
+      --db-user=magento_user \
+      --db-password=magento_pass \
+      --base-url=http://example.com \
+      --backend-frontname=admin \
+      --admin-firstname=admin \
+      --admin-lastname=admin \
+      --admin-email=admin@example.com \
+      --admin-user=admin \
+      --admin-password=admin123 \
+      --language=en_US \
+      --currency=USD \
+      --timezone=America/Chicago \
+      --use-rewrites=1
+

@@ -1,0 +1,2 @@
+ansible/group_vars/magento2/vault.yml
+~/.vault_pass.txt

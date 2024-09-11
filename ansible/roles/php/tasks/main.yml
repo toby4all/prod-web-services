@@ -1,0 +1,28 @@
+---
+- name: Install PHP packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - php-fpm
+    - php-mysql
+    - php-xml
+    - php-cli
+    - php-curl
+    - php-mbstring
+    - php-intl
+  notify: restart php-fpm
+
+- name: Configure PHP-FPM to listen on port 9000
+  lineinfile:
+    path: /etc/php/8.3/fpm/pool.d/www.conf  # Updated to PHP 8.3
+    regexp: '^listen ='
+    line: 'listen = 0.0.0.0:9000'
+    state: present
+  notify: restart php-fpm
+
+- name: Ensure PHP-FPM is started and enabled
+  service:
+    name: php8.3-fpm  # Updated to PHP 8.3
+    state: started
+    enabled: yes

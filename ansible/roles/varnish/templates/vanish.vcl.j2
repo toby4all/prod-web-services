@@ -1,0 +1,34 @@
+vcl 4.0;
+
+backend default {
+    .host = "127.0.0.1";
+    .port = "9000";  # Forward requests to PHP-FPM on 9000
+}
+
+sub vcl_recv {
+    if (req.http.X-Forwarded-Proto == "http") {
+        set req.http.X-Forwarded-Proto = "https";
+    }
+
+    if (req.method == "PURGE") {
+        if (client.ip != "127.0.0.1") {
+            return (synth(403, "Not allowed."));
+        }
+        return (purge);
+    }
+
+    if (req.method != "GET" && req.method != "HEAD" && req.method != "PUT" && req.method != "POST" && req.method != "PATCH" && req.method != "DELETE") {
+        return (pipe);
+    }
+}
+
+sub vcl_backend_response {
+    if (beresp.ttl <= 0s || beresp.http.Cache-Control ~ "private" || beresp.http.Vary ~ "*") {
+        set beresp.uncacheable = true;
+        set beresp.ttl = 120s;
+    }
+}
+
+sub vcl_purge {
+    return (synth(200, "Purged."));
+}

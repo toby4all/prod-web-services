@@ -1,0 +1,24 @@
+---
+- name: Install NGINX
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes  # Ensures the package list is updated before installing
+
+- name: Ensure NGINX is started and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Configure NGINX with SSL
+  template:
+    src: nginx-vhost.conf.j2
+    dest: /etc/nginx/sites-available/{{ magento_domain }}.conf
+  notify: restart nginx
+
+- name: Enable site
+  file:
+    src: /etc/nginx/sites-available/{{ magento_domain }}.conf
+    dest: /etc/nginx/sites-enabled/{{ magento_domain }}.conf
+    state: link

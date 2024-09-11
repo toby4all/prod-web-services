@@ -1,0 +1,40 @@
+# Test MySQL connection
+- name: Test MySQL connection
+  community.mysql.mysql_info:
+    login_user: ansible_admin
+    login_password: "{{ ansible_admin_password }}"
+  become: yes
+
+# Temporarily comment out tasks below to avoid failures
+# - name: Set MySQL root password
+#   community.mysql.mysql_user:
+#     name: root
+#     host: localhost
+#     password: "{{ mysql_root_password }}"
+#     login_user: ansible_admin
+#     login_password: "{{ ansible_admin_password }}"
+#     check_implicit_admin: yes
+#   become: yes
+
+# - name: Remove anonymous users
+#   community.mysql.mysql_user:
+#     name: ''
+#     host_all: yes
+#     state: absent
+#     login_user: ansible_admin
+#     login_password: "{{ ansible_admin_password }}"
+#   become: yes
+
+# - name: Disallow root remote login
+#   community.mysql.mysql_user:
+#     name: root
+#     host: "{{ item }}"
+#     password: "{{ mysql_root_password }}"
+#     login_user: ansible_admin
+#     login_password: "{{ ansible_admin_password }}"
+#     state: present
+#   with_items:
+#     - 127.0.0.1
+#     - ::1
+#   become: yes
+

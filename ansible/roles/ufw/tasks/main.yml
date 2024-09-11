@@ -1,0 +1,25 @@
+---
+# Open the necessary ports for internal communication
+- name: Allow Varnish through UFW on TCP 8081
+  ufw:
+    rule: allow
+    port: '8081'
+    proto: tcp
+
+- name: Allow PHP-FPM through UFW on TCP 9000 
+  ufw:
+    rule: allow
+    port: '9000'
+    proto: tcp
+
+- name: Allow HTTP through UFW
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: Allow HTTPS through UFW
+  ufw:
+    rule: allow
+    port: '443'
+    proto: tcp

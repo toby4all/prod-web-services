@@ -1,0 +1,13 @@
+cluster.name: "magento-opensearch-cluster"
+node.name: "{{ ansible_hostname }}"
+path.data: /var/lib/opensearch
+path.logs: /var/log/opensearch
+
+network.host: 0.0.0.0
+http.port: 9200
+
+# Ensure memory lock is enabled for production setups
+bootstrap.memory_lock: true
+cluster.initial_master_nodes: ["{{ ansible_hostname }}"]
+
+discovery.seed_hosts: ["127.0.0.1"]

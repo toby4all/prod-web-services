@@ -1,0 +1,4 @@
+magento_domain: "scandiwebtest.magento.com"
+ssl_certificate: "/etc/nginx/ssl/{{ magento_domain }}.crt"
+ssl_certificate_key: "/etc/nginx/ssl/{{ magento_domain }}.key"
+ssl_self_signed: true  # Set to false if using Let's Encrypt or another service

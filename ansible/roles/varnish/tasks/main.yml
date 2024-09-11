@@ -1,0 +1,21 @@
+---
+- name: Install Varnish
+  apt:
+    name: varnish
+    state: present
+
+- name: Configure Varnish to listen on port 8081
+  lineinfile:
+    path: /etc/systemd/system/multi-user.target.wants/varnish.service
+    regexp: 'ExecStart=.*'
+    line: 'ExecStart=/usr/sbin/varnishd -a :8081 -T localhost:6082 -f /etc/varnish/default.vcl -s malloc,256m'
+    state: present
+
+- name: Reload systemd daemon for Varnish service
+  command: systemctl daemon-reload
+
+- name: Start Varnish service
+  service:
+    name: varnish
+    state: restarted
+    enabled: yes

@@ -1,0 +1,33 @@
+---
+- name: Ensure the SSL directory exists
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: '0755'
+
+- name: Check if the private key exists
+  stat:
+    path: "{{ ssl_certificate_key }}"
+  register: private_key_exists
+
+- name: Generate private key (if not already present)
+  openssl_privatekey:
+    path: "{{ ssl_certificate_key }}"
+    size: 2048
+  when: not private_key_exists.stat.exists
+
+- name: Generate self-signed SSL certificate (if required)
+  when: ssl_self_signed
+  openssl_certificate:
+    path: "{{ ssl_certificate }}"
+    privatekey_path: "{{ ssl_certificate_key }}"
+    provider: selfsigned
+    selfsigned_not_before: "+0d"
+    selfsigned_not_after: "+365d"
+    selfsigned_digest: "sha256"
+
+- name: Reload NGINX to apply SSL changes
+  service:
+    name: nginx
+    state: reloaded
+

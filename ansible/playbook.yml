@@ -1,0 +1,35 @@
+---
+- name: Set up Magento 2 environment
+  hosts: magento2
+  become: yes
+  collections:
+    - community.mysql
+  vars:
+    ssl_self_signed: true  # Define the ssl_self_signed variable here
+  roles:
+    - ssl         # SSL role is implemented
+    - ufw         # UFW role is implemented for firewall
+    - nginx
+    - php
+    - mysql
+    - varnish
+    - redis
+    - magento
+    - opensearch
+
+  tasks:
+    - name: Install Composer
+      apt:
+        name: composer
+        state: present
+      become: yes
+
+    - name: Debug opensearch_initial_admin_password variable
+      debug:
+        var: opensearch_initial_admin_password
+
+    - name: Set environment variable for OpenSearch initial admin password
+      shell: "export OPENSEARCH_INITIAL_ADMIN_PASSWORD='{{ opensearch_initial_admin_password }}'"
+      become: yes
+
+
